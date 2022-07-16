@@ -6,14 +6,6 @@ use InvalidArgumentException;
 
 class Size
 {
-	public const UNITS = [
-		'tb',
-		'gb',
-		'mb',
-		'kb',
-		'b',
-	];
-
 	public const OF = [
 		'tb' => 1099511627776,
 		'gb' => 1073741824,
@@ -35,8 +27,8 @@ class Size
 	 */
 	public static function of(int $tb = 0, int $gb = 0, int $mb = 0, int $kb = 0, int $b = 0, $as = 'b'): int
 	{
-		if (! in_array($as, self::UNITS, true)) {
-			throw new InvalidArgumentException('Argument #6 ($as) must be one of the values: ' . implode(', ', self::UNITS));
+		if (! isset(self::OF[$as])) {
+			throw new InvalidArgumentException('Argument #6 ($as) must be one of the values: ' . implode(', ', array_keys(self::OF)));
 		}
 
 		$total = 0;
