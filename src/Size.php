@@ -25,7 +25,7 @@ class Size
 	 * @param string $as
 	 * @return int
 	 */
-	public static function of(int $tb = 0, int $gb = 0, int $mb = 0, int $kb = 0, int $b = 0, $as = 'b'): int
+	public static function of(int $tb = 0, int $gb = 0, int $mb = 0, int $kb = 0, int $b = 0, string $as = 'b'): int
 	{
 		if (! isset(self::OF[$as])) {
 			throw new InvalidArgumentException('Argument #6 ($as) must be one of the values: ' . implode(', ', array_keys(self::OF)));

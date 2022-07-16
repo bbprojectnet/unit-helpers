@@ -27,7 +27,7 @@ class Time
 	 * @param string $as
 	 * @return int
 	 */
-	public static function of(int $years = 0, int $weeks = 0, int $days = 0, int $hours = 0, int $minutes = 0, int $seconds = 0, $as = 'seconds'): int
+	public static function of(int $years = 0, int $weeks = 0, int $days = 0, int $hours = 0, int $minutes = 0, int $seconds = 0, string $as = 'seconds'): int
 	{
 		if (! isset(self::OF[$as])) {
 			throw new InvalidArgumentException('Argument #7 ($as) must be one of the values: ' . implode(', ', array_keys(self::OF)));
