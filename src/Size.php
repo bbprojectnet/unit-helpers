@@ -2,8 +2,16 @@
 
 namespace BBProjectNet\UnitHelpers;
 
+use Error;
 use InvalidArgumentException;
 
+/**
+ * @method static int tb(int $quantity, string $as = 'b')
+ * @method static int gb(int $quantity, string $as = 'b')
+ * @method static int mb(int $quantity, string $as = 'b')
+ * @method static int kb(int $quantity, string $as = 'b')
+ * @method static int b(int $quantity, string $as = 'b')
+ */
 class Size
 {
 	public const OF = [
@@ -40,5 +48,24 @@ class Size
 				return intdiv($total, $multiple);
 			}
 		}
+	}
+
+	/**
+	 * Static call
+	 *
+	 * @param string $name
+	 * @param array<int, int|string> $arguments
+	 * @return int
+	 */
+	public static function __callStatic(string $name, array $arguments)
+	{
+		if (! isset(self::OF[$name])) {
+			throw new Error('Call to undefined method ' . static::class . '::' . $name . '()');
+		}
+
+		return static::of(...[
+			$name => $arguments[0] ?? 1,
+			'as' => $arguments[1] ?? 'b',
+		]);
 	}
 }

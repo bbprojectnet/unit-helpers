@@ -2,8 +2,17 @@
 
 namespace BBProjectNet\UnitHelpers;
 
+use Error;
 use InvalidArgumentException;
 
+/**
+ * @method static int years(int $quantity, string $as = 'seconds')
+ * @method static int weeks(int $quantity, string $as = 'seconds')
+ * @method static int days(int $quantity, string $as = 'seconds')
+ * @method static int hours(int $quantity, string $as = 'seconds')
+ * @method static int minutes(int $quantity, string $as = 'seconds')
+ * @method static int seconds(int $quantity, string $as = 'seconds')
+ */
 class Time
 {
 	public const OF = [
@@ -42,5 +51,28 @@ class Time
 				return intdiv($total, $multiple);
 			}
 		}
+	}
+
+	/**
+	 * Static call
+	 *
+	 * @param string $name
+	 * @param array<int, int|string> $arguments
+	 * @return int
+	 */
+	public static function __callStatic(string $name, array $arguments)
+	{
+		if ($name[-1] !== 's') {
+			$name .= 's';
+		}
+
+		if (! isset(self::OF[$name])) {
+			throw new Error('Call to undefined method ' . static::class . '::' . $name . '()');
+		}
+
+		return static::of(...[
+			$name => $arguments[0] ?? 1,
+			'as' => $arguments[1] ?? 'seconds',
+		]);
 	}
 }

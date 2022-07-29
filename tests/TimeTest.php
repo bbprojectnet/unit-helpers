@@ -35,4 +35,35 @@ class TimeTest extends TestCase
 
 		Time::of(years: 200, as: 'centuries');
 	}
+
+	public function callStatic_provider()
+	{
+		return [
+			'zero' => ['seconds', [0], 0],
+			'zero as hours' => ['hours', [0], 0],
+			'hours' => ['hours', [4], 14400],
+			'hours as minutes' => ['hours', [2, 'minutes'], 120],
+			'weeks as minutes' => ['weeks', [3, 'minutes'], 30240],
+			'no arguments' => ['hours', [], 3600],
+			'singular form' => ['day', [], 86400],
+			'singular form with quantity' => ['day', [2], 172800],
+		];
+	}
+
+	/**
+	 * @dataProvider callStatic_provider
+	 */
+	public function test_callStatic($name, $arguments, $expected)
+	{
+		$result = Time::{$name}(...$arguments);
+
+		$this->assertSame($expected, $result);
+	}
+
+	public function test_callStatic_with_invalid_name_value(): void
+	{
+		$this->expectException(Error::class);
+
+		Time::centuries(4);
+	}
 }
