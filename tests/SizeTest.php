@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 class SizeTest extends TestCase
 {
-	public function of_provider(): array
+	public function of_provider()
 	{
 		return [
 			'zero' => [[0, 0, 0, 0, 0, 'b'], 0],

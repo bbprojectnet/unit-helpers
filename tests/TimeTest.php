@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 class TimeTest extends TestCase
 {
-	public function of_provider(): array
+	public function of_provider()
 	{
 		return [
 			'zero' => [[0, 0, 0, 0, 0, 0, 'seconds'], 0],

@@ -6,12 +6,18 @@ use Error;
 use InvalidArgumentException;
 
 /**
- * @method static int years(int $quantity, string $as = 'seconds')
- * @method static int weeks(int $quantity, string $as = 'seconds')
- * @method static int days(int $quantity, string $as = 'seconds')
- * @method static int hours(int $quantity, string $as = 'seconds')
- * @method static int minutes(int $quantity, string $as = 'seconds')
- * @method static int seconds(int $quantity, string $as = 'seconds')
+ * @method static int year(int $quantity = 1, string $as = 'seconds')
+ * @method static int years(int $quantity = 1, string $as = 'seconds')
+ * @method static int week(int $quantity = 1, string $as = 'seconds')
+ * @method static int weeks(int $quantity = 1, string $as = 'seconds')
+ * @method static int day(int $quantity = 1, string $as = 'seconds')
+ * @method static int days(int $quantity = 1, string $as = 'seconds')
+ * @method static int hour(int $quantity = 1, string $as = 'seconds')
+ * @method static int hours(int $quantity = 1, string $as = 'seconds')
+ * @method static int minute(int $quantity = 1, string $as = 'seconds')
+ * @method static int minutes(int $quantity = 1, string $as = 'seconds')
+ * @method static int second(int $quantity = 1, string $as = 'seconds')
+ * @method static int seconds(int $quantity = 1, string $as = 'seconds')
  */
 class Time
 {

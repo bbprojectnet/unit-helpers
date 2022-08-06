@@ -6,11 +6,11 @@ use Error;
 use InvalidArgumentException;
 
 /**
- * @method static int tb(int $quantity, string $as = 'b')
- * @method static int gb(int $quantity, string $as = 'b')
- * @method static int mb(int $quantity, string $as = 'b')
- * @method static int kb(int $quantity, string $as = 'b')
- * @method static int b(int $quantity, string $as = 'b')
+ * @method static int tb(int $quantity = 1, string $as = 'b')
+ * @method static int gb(int $quantity = 1, string $as = 'b')
+ * @method static int mb(int $quantity = 1, string $as = 'b')
+ * @method static int kb(int $quantity = 1, string $as = 'b')
+ * @method static int b(int $quantity = 1, string $as = 'b')
  */
 class Size
 {
