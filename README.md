@@ -4,53 +4,45 @@ This package is intended to make it easier to specify time and size in configura
 
 ### Example 1:
 
-Before:
-
 ```php
+// Before
 $query->where('size', '>=', 209715200)->get();
-```
 
-After:
-
-```php
+// After
 $query->where('size', '>=', Size::mb(200))->get();
 ```
 
 ### Example 2:
 
-Before:
-
 ```php
+// Before
 $config = [
 	'expiration' => 4680, // 3 days and 6 hours in minutes
 ];
-```
 
-After:
-
-```php
+// After
 $config = [
 	'expiration' => Time::of(days: 3, hours: 6, 'minutes'),
+	// or
+	'expiration' => Time::of(days: 3.25, 'minutes'),
+	// or
+	'expiration' => Time::days(3.25, 'minutes'),
 ];
 ```
 
 ### Example 3:
 
-Before:
-
 ```php
+// Before
 class Job
 {
 	protected int $timeout = 10800;
 }
-```
 
-After:
-
-```php
+// After
 class Job
 {
-	protected int $timeout = Time::OF['hours'] * 3;
+	protected int $timeout = Time::HOUR * 3;
 }
 ```
 
@@ -89,19 +81,25 @@ $timeout = Time::of(days: 2);
 With mixed unit types:
 
 ```php
-$timeout = Time::of(days: 2, hours: 12);
+$timeout = Time::of(days: 2, hours: 10);
 ```
 
 With mixed unit types and output unit specified:
 
 ```php
-$timeout = Time::of(days: 2, hours: 12, as: 'minutes');
+$timeout = Time::of(days: 2, hours: 10, as: 'minutes');
+```
+
+With mixed unit types, fractions, negative values and output unit specified:
+
+```php
+$timeout = Time::of(days: 2.4, hours: -2, minutes: 0.5, as: 'minutes');
 ```
 
 As constant in places where method invocation is not possible:
 
 ```php
-protected int $timeout = Time::OF['hours'] * 3;
+protected int $timeout = Time::HOUR * 3;
 ```
 
 ## License
