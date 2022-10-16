@@ -8,14 +8,14 @@ class SizeTest extends TestCase
 	public function of_provider()
 	{
 		return [
-			'zero' => [[0, 0, 0, 0, 0, 'b'], 0],
-			'zero as megabytes' => [[0, 0, 0, 0, 0, 'mb'], 0],
-			'mixed units' => [[1, 3, 20, 8, 2, 'b'], 1102753832962],
-			'mixed units as kilobytes' => [[1, 3, 20, 8, 2, 'kb'], 1076908040],
-			'mixed units as gigabytes' => [[1, 3, 20, 8, 2, 'gb'], 1027],
-			'0.9 megabytes as megabytes' => [[0, 0, 0, 920, 0, 'mb'], 0],
-			'negative value' => [[0, 0, 0, -2, 0, 'b'], -2048],
-			'mixed units with negative values' => [[0, 0, 1, -2, 0, 'b'], 1046528],
+			'zero' => [[0, 0, 0, 0, 0, 0, 'b'], 0],
+			'zero as megabytes' => [[0, 0, 0, 0, 0, 0, 'mb'], 0],
+			'mixed units' => [[0, 1, 3, 20, 8, 2, 'b'], 1102753832962],
+			'mixed units as kilobytes' => [[0, 1, 3, 20, 8, 2, 'kb'], 1076908040],
+			'mixed units as gigabytes' => [[0, 1, 3, 20, 8, 2, 'gb'], 1027],
+			'0.9 megabytes as megabytes' => [[0, 0, 0, 0, 920, 0, 'mb'], 0],
+			'negative value' => [[0, 0, 0, 0, -2, 0, 'b'], -2048],
+			'mixed units with negative values' => [[0, 0, 0, 1, -2, 0, 'b'], 1046528],
 		];
 	}
 
