@@ -2,83 +2,90 @@
 
 namespace BBProjectNet\UnitHelpers;
 
-use Error;
-use InvalidArgumentException;
-
 /**
- * @method static int year(int $quantity = 1, string $as = 'seconds')
- * @method static int years(int $quantity = 1, string $as = 'seconds')
- * @method static int week(int $quantity = 1, string $as = 'seconds')
- * @method static int weeks(int $quantity = 1, string $as = 'seconds')
- * @method static int day(int $quantity = 1, string $as = 'seconds')
- * @method static int days(int $quantity = 1, string $as = 'seconds')
- * @method static int hour(int $quantity = 1, string $as = 'seconds')
- * @method static int hours(int $quantity = 1, string $as = 'seconds')
- * @method static int minute(int $quantity = 1, string $as = 'seconds')
- * @method static int minutes(int $quantity = 1, string $as = 'seconds')
- * @method static int second(int $quantity = 1, string $as = 'seconds')
- * @method static int seconds(int $quantity = 1, string $as = 'seconds')
+ * Time
+ *
+ * @method static int years(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int year(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int months(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int month(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int weeks(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int week(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int days(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int day(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int hours(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int hour(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int minutes(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int minute(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int seconds(int|float $quantity = 1, string $as = 'seconds')
+ * @method static int second(int|float $quantity = 1, string $as = 'seconds')
  */
-class Time
+class Time extends Unit
 {
-	public const OF = [
-		'years' => 31536000,
-		'weeks' => 604800,
-		'days' => 86400,
-		'hours' => 3600,
-		'minutes' => 60,
-		'seconds' => 1,
-	];
+	public const YEAR = 31536000; // 365 days
+	public const MONTH = 2592000; // 30 days
+	public const WEEK = 604800;
+	public const DAY = 86400;
+	public const HOUR = 3600;
+	public const MINUTE = 60;
+	public const SECOND = 1;
 
 	/**
 	 * Time interval in given unit
 	 *
-	 * @param int $years
-	 * @param int $weeks
-	 * @param int $days
-	 * @param int $hours
-	 * @param int $minutes
-	 * @param int $seconds
+	 * @param int|float $years
+	 * @param int|float $months
+	 * @param int|float $weeks
+	 * @param int|float $days
+	 * @param int|float $hours
+	 * @param int|float $minutes
+	 * @param int|float $seconds
 	 * @param string $as
 	 * @return int
 	 */
-	public static function of(int $years = 0, int $weeks = 0, int $days = 0, int $hours = 0, int $minutes = 0, int $seconds = 0, string $as = 'seconds'): int
+	public static function of(
+		int|float $years = 0,
+		int|float $months = 0,
+		int|float $weeks = 0,
+		int|float $days = 0,
+		int|float $hours = 0,
+		int|float $minutes = 0,
+		int|float $seconds = 0,
+		string $as = 'seconds',
+	): int
 	{
-		if (! isset(self::OF[$as])) {
-			throw new InvalidArgumentException('Argument #' . func_num_args() . ' ($as) must be one of the values: ' . implode(', ', array_keys(self::OF)));
-		}
-
-		$total = 0;
-
-		foreach (self::OF as $unit => $multiple) {
-			$total += ${$unit} * $multiple;
-
-			if ($unit === $as) {
-				return intdiv($total, $multiple);
-			}
-		}
+		return static::transform(compact('years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds'), $as);
 	}
 
 	/**
-	 * Static call
-	 *
-	 * @param string $name
-	 * @param array<int, int|string> $arguments
-	 * @return int
+	 * @inheritDoc
 	 */
-	public static function __callStatic(string $name, array $arguments)
+	protected static function getUnits(): array
 	{
-		if ($name[-1] !== 's') {
-			$name .= 's';
-		}
+		return [
+			'years' => self::YEAR,
+			'year' => self::YEAR,
+			'months' => self::MONTH,
+			'month' => self::MONTH,
+			'weeks' => self::WEEK,
+			'week' => self::WEEK,
+			'days' => self::DAY,
+			'day' => self::DAY,
+			'hours' => self::HOUR,
+			'hour' => self::HOUR,
+			'minutes' => self::MINUTE,
+			'minute' => self::MINUTE,
+			'seconds' => self::SECOND,
+			'second' => self::SECOND,
+		];
+	}
 
-		if (! isset(self::OF[$name])) {
-			throw new Error('Call to undefined method ' . static::class . '::' . $name . '()');
-		}
-
-		return static::of(...[
-			$name => $arguments[0] ?? 1,
-			'as' => $arguments[1] ?? 'seconds',
-		]);
+	/**
+	 * @inheritDoc
+	 * @codeCoverageIgnore
+	 */
+	protected static function getDefaultUnit(): string
+	{
+		return 'seconds';
 	}
 }

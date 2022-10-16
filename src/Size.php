@@ -2,73 +2,71 @@
 
 namespace BBProjectNet\UnitHelpers;
 
-use Error;
-use InvalidArgumentException;
-
 /**
- * @method static int pb(int $quantity = 1, string $as = 'b')
- * @method static int tb(int $quantity = 1, string $as = 'b')
- * @method static int gb(int $quantity = 1, string $as = 'b')
- * @method static int mb(int $quantity = 1, string $as = 'b')
- * @method static int kb(int $quantity = 1, string $as = 'b')
- * @method static int b(int $quantity = 1, string $as = 'b')
+ * Size
+ *
+ * @method static int pb(int|float $quantity = 1, string $as = 'b')
+ * @method static int tb(int|float $quantity = 1, string $as = 'b')
+ * @method static int gb(int|float $quantity = 1, string $as = 'b')
+ * @method static int mb(int|float$quantity = 1, string $as = 'b')
+ * @method static int kb(int|float $quantity = 1, string $as = 'b')
+ * @method static int b(int|float $quantity = 1, string $as = 'b')
  */
-class Size
+class Size extends Unit
 {
-	public const OF = [
-		'pb' => 1125899906842624,
-		'tb' => 1099511627776,
-		'gb' => 1073741824,
-		'mb' => 1048576,
-		'kb' => 1024,
-		'b' => 1,
-	];
+	public const PB = 1125899906842624;
+	public const TB = 1099511627776;
+	public const GB = 1073741824;
+	public const MB = 1048576;
+	public const KB = 1024;
+	public const B = 1;
 
 	/**
 	 * Size in given unit
 	 *
-	 * @param int $pb
-	 * @param int $tb
-	 * @param int $gb
-	 * @param int $mb
-	 * @param int $kb
-	 * @param int $b
+	 * @param int|float $pb
+	 * @param int|float $tb
+	 * @param int|float $gb
+	 * @param int|float $mb
+	 * @param int|float $kb
+	 * @param int|float $b
 	 * @param string $as
 	 * @return int
 	 */
-	public static function of(int $pb = 0, int $tb = 0, int $gb = 0, int $mb = 0, int $kb = 0, int $b = 0, string $as = 'b'): int
+	public static function of(
+		int|float $pb = 0,
+		int|float $tb = 0,
+		int|float $gb = 0,
+		int|float $mb = 0,
+		int|float $kb = 0,
+		int|float $b = 0,
+		string $as = 'b',
+	): int
 	{
-		if (! isset(self::OF[$as])) {
-			throw new InvalidArgumentException('Argument #' . func_num_args() . ' ($as) must be one of the values: ' . implode(', ', array_keys(self::OF)));
-		}
-
-		$total = 0;
-
-		foreach (self::OF as $unit => $multiple) {
-			$total += ${$unit} * $multiple;
-
-			if ($unit === $as) {
-				return intdiv($total, $multiple);
-			}
-		}
+		return static::transform(compact('pb', 'tb', 'gb', 'mb', 'kb', 'b'), $as);
 	}
 
 	/**
-	 * Static call
-	 *
-	 * @param string $name
-	 * @param array<int, int|string> $arguments
-	 * @return int
+	 * @inheritDoc
 	 */
-	public static function __callStatic(string $name, array $arguments)
+	protected static function getUnits(): array
 	{
-		if (! isset(self::OF[$name])) {
-			throw new Error('Call to undefined method ' . static::class . '::' . $name . '()');
-		}
+		return [
+			'pb' => self::PB,
+			'tb' => self::TB,
+			'gb' => self::GB,
+			'mb' => self::MB,
+			'kb' => self::KB,
+			'b' => self::B,
+		];
+	}
 
-		return static::of(...[
-			$name => $arguments[0] ?? 1,
-			'as' => $arguments[1] ?? 'b',
-		]);
+	/**
+	 * @inheritDoc
+	 * @codeCoverageIgnore
+	 */
+	protected static function getDefaultUnit(): string
+	{
+		return 'b';
 	}
 }
